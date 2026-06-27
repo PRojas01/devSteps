@@ -1,0 +1,35 @@
+# devSteps Pipeline — TestRun
+
+## Project Type: web-app
+
+## Pipeline Steps
+- **1-validate-idea (Validar Idea)**: Evaluación multi-agente de la idea: investigación, análisis, iteración, matriz de viabilidad
+- **2-design (Diseñar)**: Diseño de la solución: requisitos, arquitectura, decisiones. DevControl valida contra el estándar.
+- **3-init (Inicializar)**: Scaffolding del proyecto: estructura, configuración, dependencias, git
+- **4-develop (Desarrollar)**: Desarrollo con gobernanza DevControl: watch mode, sesiones, approvals
+- **5-verify (Verificar)**: Quality gates: typecheck, lint, tests, code review, compliance
+- **5.5-review (Revisar)**: Code review y validación final antes de release
+- **6-release (Release)**: Versionado, changelog, build y publicación
+- **7-maintain (Mantener)**: Ciclo de mantenimiento perpetuo: bugs, features, parches
+
+## Required Standards
+- 🔴 DS-001: README required
+- 🔴 DS-003: Requirements doc
+- 🔴 DS-004: Architecture doc
+- 🔴 DS-010: No secrets in code
+- 🔴 DS-011: SQL injection prevention
+- 🔴 DS-012: No innerHTML without sanitization
+- 🔴 DS-013: Command injection prevention
+- 🔴 DS-030: Strict TypeScript
+- 🔴 DS-050: Tests required for source
+- 🔴 DS-070: Conventional Commits
+- 🔴 DS-071: .gitignore present
+- 🔴 DS-081: SemVer versioning
+- 🔴 DS-090: package.json present
+- 🔴 DS-091: tsconfig.json present
+
+## Agent Instructions
+1. Always verify which pipeline step is active
+2. Follow the exit criteria for each step
+3. Validate all output against DS-v1 standards
+4. Register completed work with `devsteps step:complete`

@@ -1,0 +1,26 @@
+{
+  "projectName": "devSteps",
+  "updatedAt": "2026-06-27T18:44:59.904Z",
+  "gates": {
+    "design": {
+      "phase": "design",
+      "status": "pending",
+      "updatedAt": "2026-06-27T18:44:59.904Z"
+    },
+    "development": {
+      "phase": "development",
+      "status": "pending",
+      "updatedAt": "2026-06-27T18:44:59.904Z"
+    },
+    "review": {
+      "phase": "review",
+      "status": "pending",
+      "updatedAt": "2026-06-27T18:44:59.904Z"
+    },
+    "publish": {
+      "phase": "publish",
+      "status": "pending",
+      "updatedAt": "2026-06-27T18:44:59.904Z"
+    }
+  }
+}

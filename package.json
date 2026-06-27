@@ -1,0 +1,48 @@
+{
+  "name": "devsteps",
+  "version": "1.0.0",
+  "description": "Stage-based project lifecycle orchestrator with multi-agent support",
+  "type": "module",
+  "bin": {
+    "devsteps": "./dist/cli.js"
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "project-lifecycle",
+    "orchestrator",
+    "multi-agent",
+    "scaffolding",
+    "workflow",
+    "devops"
+  ],
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.11.0",
+    "chalk": "^5.4.1",
+    "chokidar": "^4.0.3",
+    "commander": "^13.1.0",
+    "execa": "^9.5.2",
+    "inquirer": "^12.5.2",
+    "js-yaml": "^4.1.0",
+    "simple-git": "^3.36.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,34 @@
+You are an AI coding agent working on TestRun.
+Before writing code, check the devSteps pipeline to see what step you're on.
+
+## Current Pipeline: web-app
+
+- **1-validate-idea**: Validar Idea → execute with opencode, claude, codex, approved by human
+- **2-design**: Diseñar → execute with opencode, approved by human
+- **3-init**: Inicializar → execute with opencode, approved by human
+- **4-develop**: Desarrollar → execute with opencode, approved by human
+- **5-verify**: Verificar → execute with auto, opencode, approved by human
+- **5.5-review**: Revisar → execute with opencode, approved by human
+- **6-release**: Release → execute with auto, human, approved by human
+- **7-maintain**: Mantener → execute with opencode, approved by human
+
+## Quality Rules (DS-v1)
+
+- DS-001: README required
+- DS-003: Requirements doc
+- DS-004: Architecture doc
+- DS-010: No secrets in code
+- DS-011: SQL injection prevention
+- DS-012: No innerHTML without sanitization
+- DS-013: Command injection prevention
+- DS-030: Strict TypeScript
+- DS-050: Tests required for source
+- DS-070: Conventional Commits
+
+## Workflow
+
+1. Check `devsteps status` before starting work
+2. Complete the current step's tasks
+3. Run `devsteps validate` to check quality
+4. Run `devsteps step:complete` when done
+5. Move to next step
