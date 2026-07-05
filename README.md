@@ -4,9 +4,16 @@
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](https://nodejs.org)
 [![Family](https://img.shields.io/badge/family-SolucionesPro%20Agentic%20Stack-blue)](#relacion-con-devcontrol)
 
-`SP-devSteps` es el orquestador de ciclo de vida para proyectos asistidos por IA. Está diseñado para personas que quieren construir software con una ruta visible, repetible y compatible con agentes como Codex, Claude Code u OpenCode.
+`SP-devSteps` es un orquestador de proyectos para gente que quiere empezar desde cero sin perder el control del proceso. Te da una ruta clara para crear, documentar, validar y publicar software, y funciona tanto en terminal como desde editores agénticos.
 
-El enfoque no es "deja todo al agente". El enfoque es guiar a alguien que empieza desde cero para que pueda entender qué hacer, en qué orden y cómo validar que el proyecto sí está quedando listo para producción y para compartirlo.
+No reemplaza tu criterio. Te ayuda a aprender el flujo real de desarrollo mientras trabajas con herramientas como Codex, Claude Code, VS Code, Cursor, Windsurf u OpenCode.
+
+## Qué problema resuelve
+
+- Te dice qué hacer primero, qué validar después y cuándo estás listo para avanzar.
+- Evita que dependas de instrucciones dispersas o de un agente que actúa sin contexto.
+- Te deja trabajar desde la terminal o desde un editor agéntico con instrucciones ya preparadas.
+- Documenta el proyecto para que puedas compartirlo, instalarlo y continuar más adelante sin empezar de nuevo.
 
 ## Relación con DevControl
 
@@ -27,7 +34,7 @@ En una instalación completa, `devSteps` orquesta y `DevControl` vigila.
 
 ## Tres modos principales
 
-devSteps puede operar en dos canales de interacción: el usuario puede trabajar directamente en la terminal con el CLI, o puede trabajar desde un editor agéntico donde el agente lee las instrucciones generadas y guía/ejecuta el flujo dentro del proyecto.
+devSteps puede operar en dos canales de interacción: el usuario puede trabajar directamente en la terminal con el CLI, o puede trabajar desde un editor agéntico donde el agente lee las instrucciones generadas y guía el flujo dentro del proyecto.
 
 ### 1. CLI instalable
 
@@ -40,7 +47,7 @@ devsteps --help
 
 ### 2. Skill / instrucciones para agentes
 
-Genera contexto reutilizable para herramientas como Codex, Claude Code, Cursor o Windsurf. Este modo permite que el usuario converse con el agente en el editor, mientras el agente sigue el pipeline, las reglas DS-v1 y las instrucciones del proyecto:
+Genera contexto reutilizable para herramientas como Codex, Claude Code, Cursor o Windsurf. Este modo permite que el usuario converse con el agente en el editor mientras el agente sigue el pipeline, DS-v1 y las instrucciones del proyecto:
 
 ```bash
 devsteps inject
@@ -64,7 +71,9 @@ devsteps plugins --install github-actions
 
 También hay configuraciones de integración en `opencode.json` y `.mcp.json`, alineadas con DevControl.
 
-## Inicio rápido para principiantes
+## Inicio rápido
+
+Si tu objetivo es aprender y avanzar paso a paso, esta es la ruta recomendada:
 
 Si necesitas instrucciones por sistema operativo o editor, revisa:
 
@@ -121,6 +130,8 @@ sp-devcontrol inject
 sp-devcontrol project:check
 ```
 
+Con DevControl ganas validación adicional, políticas y una capa más clara de gobernanza cuando ya estás trabajando con agentes.
+
 ### 7. Valida el estado del proyecto
 
 ```bash
@@ -174,7 +185,7 @@ npm test
 
 ## Estado actual de release
 
-El proyecto compila y sus tests pasan. La documentación base para onboarding, release y publicación en GitHub está incluida en este repositorio, y la integración con `SP-DevControl` queda documentada para uso conjunto.
+El proyecto compila, sus tests pasan y el paquete publicado incluye guías para Windows, Linux y editores agénticos. La integración con `SP-DevControl` queda documentada para uso conjunto.
 
 ## Licencia
 
