@@ -13,6 +13,8 @@ interface DocsOptions {
   requirements?: boolean
   architecture?: boolean
   gettingStarted?: boolean
+  installPlatforms?: boolean
+  agenticEditors?: boolean
   publishing?: boolean
   changelog?: boolean
   decision?: string
@@ -51,6 +53,16 @@ export function generateDocs(root: string, options: DocsOptions): void {
     generated++
   }
 
+  if (options.installPlatforms || options.all) {
+    generateInstallPlatformsDoc(root)
+    generated++
+  }
+
+  if (options.agenticEditors || options.all) {
+    generateAgenticEditorsDoc(root)
+    generated++
+  }
+
   if (options.publishing || options.all) {
     generatePublishingDoc(root, config)
     generated++
@@ -66,7 +78,7 @@ export function generateDocs(root: string, options: DocsOptions): void {
     generated++
   }
 
-  if (!options.all && !options.readme && !options.requirements && !options.architecture && !options.gettingStarted && !options.publishing && !options.changelog && !options.decision) {
+  if (!options.all && !options.readme && !options.requirements && !options.architecture && !options.gettingStarted && !options.installPlatforms && !options.agenticEditors && !options.publishing && !options.changelog && !options.decision) {
     generateAll(root, config, context)
     return
   }
@@ -81,6 +93,8 @@ function generateAll(root: string, config: DevStepsConfig, context: PipelineCont
   console.log('  devsteps docs --requirements    Generar docs/requirements.md')
   console.log('  devsteps docs --architecture    Generar docs de arquitectura')
   console.log('  devsteps docs --getting-started Generar guía paso a paso para principiantes')
+  console.log('  devsteps docs --install-platforms Generar guía Windows/Linux')
+  console.log('  devsteps docs --agentic-editors Generar guía de editores agénticos')
   console.log('  devsteps docs --publishing      Generar guía de publicación')
   console.log('  devsteps docs --changelog       Generar CHANGELOG.md')
   console.log('  devsteps docs --decision <tema> Generar ADR')
@@ -91,6 +105,8 @@ function generateAll(root: string, config: DevStepsConfig, context: PipelineCont
   generateRequirementsDoc(root, config)
   generateArchitectureDoc(root, config)
   generateGettingStartedDoc(root, config)
+  generateInstallPlatformsDoc(root)
+  generateAgenticEditorsDoc(root)
   generatePublishingDoc(root, config)
   generateChangelog(root, context)
 
@@ -176,6 +192,8 @@ devSteps puede operar por dos canales de interacción: el usuario trabaja direct
 ## Documentación guiada
 
 - [docs/getting-started.md](docs/getting-started.md)
+- [docs/install-platforms.md](docs/install-platforms.md)
+- [docs/agentic-editors.md](docs/agentic-editors.md)
 - [docs/requirements.md](docs/requirements.md)
 - [docs/architecture.md](docs/architecture.md)
 - [docs/publishing.md](docs/publishing.md)
@@ -353,6 +371,11 @@ function generateGettingStartedDoc(root: string, config: DevStepsConfig): void {
 - Una terminal
 - Opcional: Codex, Claude Code, OpenCode, Cursor o Windsurf
 
+Guías específicas:
+
+- [Instalación en Windows y Linux](install-platforms.md)
+- [Codex, Claude Code, VS Code, Cursor, Windsurf, OpenCode y MCP](agentic-editors.md)
+
 ## 2. Instala devSteps
 
 \`\`\`bash
@@ -439,6 +462,189 @@ npm test
 
   writeFileSync(resolve(dir, 'getting-started.md'), content, 'utf-8')
   console.log(chalk.green('  ✓ docs/getting-started.md'))
+}
+
+function generateInstallPlatformsDoc(root: string): void {
+  const dir = resolve(root, 'docs')
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+
+  const content = `# Install and Use by Platform
+
+## Windows
+
+1. Instala Node.js 20 o superior, Git for Windows y PowerShell o Windows Terminal.
+2. Verifica prerrequisitos:
+
+\`\`\`powershell
+node --version
+npm --version
+git --version
+\`\`\`
+
+3. Instala devSteps:
+
+\`\`\`powershell
+npm install -g sp-devsteps
+devsteps --help
+\`\`\`
+
+4. Crea y valida un proyecto:
+
+\`\`\`powershell
+mkdir mi-primer-proyecto
+cd mi-primer-proyecto
+devsteps scaffold --name "Mi Primer Proyecto" --type web-app --stack typescript,node --force
+devsteps validate
+npm install
+npm run build
+npm test
+\`\`\`
+
+## Linux
+
+1. Instala Node.js 20 o superior con nvm, fnm, NodeSource o el gestor de tu distribución.
+2. Verifica prerrequisitos:
+
+\`\`\`bash
+node --version
+npm --version
+git --version
+\`\`\`
+
+3. Instala devSteps:
+
+\`\`\`bash
+npm install -g sp-devsteps
+devsteps --help
+\`\`\`
+
+4. Crea y valida un proyecto:
+
+\`\`\`bash
+mkdir mi-primer-proyecto
+cd mi-primer-proyecto
+devsteps scaffold --name "Mi Primer Proyecto" --type web-app --stack typescript,node --force
+devsteps validate
+npm install
+npm run build
+npm test
+\`\`\`
+
+## DevControl opcional
+
+\`\`\`bash
+git init
+sp-devcontrol init
+sp-devcontrol inject
+sp-devcontrol project:check
+\`\`\`
+
+## Uso diario
+
+\`\`\`bash
+devsteps guide
+devsteps inject
+devsteps validate
+devsteps run
+\`\`\`
+`
+
+  writeFileSync(resolve(dir, 'install-platforms.md'), content, 'utf-8')
+  console.log(chalk.green('  ✓ docs/install-platforms.md'))
+}
+
+function generateAgenticEditorsDoc(root: string): void {
+  const dir = resolve(root, 'docs')
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+
+  const content = `# Agentic Editors and AI Coding Tools
+
+## Preparación común
+
+\`\`\`bash
+devsteps inject
+devsteps validate
+\`\`\`
+
+Archivos generados:
+
+- \`AGENTS.md\`: instrucciones generales para Codex y otros agentes compatibles.
+- \`CLAUDE.md\`: instrucciones para Claude Code.
+- \`.cursorrules\`: reglas para Cursor.
+- \`.windsurfrules\`: reglas para Windsurf.
+- \`.devsteps/pipeline-summary.md\`: resumen del pipeline.
+
+## Codex CLI
+
+\`\`\`bash
+codex --version
+codex doctor
+codex
+codex exec "Lee AGENTS.md y devsteps.yaml. Revisa el estado del proyecto y recomienda el siguiente paso."
+\`\`\`
+
+Prompt recomendado:
+
+\`\`\`text
+Lee AGENTS.md y devsteps.yaml. Guíame paso a paso con devSteps. Antes de modificar archivos, dime en qué paso del pipeline estamos y qué validación ejecutarás.
+\`\`\`
+
+## Claude Code
+
+\`\`\`bash
+claude --version
+claude doctor
+claude
+claude -p "Lee CLAUDE.md y devsteps.yaml. Resume el estado del pipeline y el siguiente paso recomendado."
+\`\`\`
+
+Prompt recomendado:
+
+\`\`\`text
+Lee CLAUDE.md y devsteps.yaml. Actúa como asistente de desarrollo guiado por devSteps. Mantén control humano antes de cambios importantes.
+\`\`\`
+
+## VS Code
+
+\`\`\`bash
+devsteps plugins --install vscode
+devsteps inject
+\`\`\`
+
+Abre la carpeta en VS Code y usa la terminal integrada para \`devsteps guide\`, \`devsteps validate\` y \`npm test\`.
+
+## Cursor
+
+\`\`\`bash
+devsteps inject
+\`\`\`
+
+Cursor usa \`.cursorrules\`. Si el agente no lo detecta, pídele que lea \`.cursorrules\`, \`AGENTS.md\` y \`devsteps.yaml\`.
+
+## Windsurf
+
+\`\`\`bash
+devsteps inject
+\`\`\`
+
+Windsurf usa \`.windsurfrules\`. Si el agente no lo detecta, pídele que lea \`.windsurfrules\`, \`AGENTS.md\` y \`devsteps.yaml\`.
+
+## OpenCode
+
+\`\`\`bash
+opencode --version
+opencode providers
+opencode .
+opencode run "Lee AGENTS.md y devsteps.yaml. Revisa el estado del proyecto y recomienda el siguiente paso."
+\`\`\`
+
+## MCP
+
+Usa \`.mcp.json\` y \`opencode.json\` como puntos de partida cuando tu editor o agente soporte servidores MCP.
+`
+
+  writeFileSync(resolve(dir, 'agentic-editors.md'), content, 'utf-8')
+  console.log(chalk.green('  ✓ docs/agentic-editors.md'))
 }
 
 function generatePublishingDoc(root: string, config: DevStepsConfig): void {

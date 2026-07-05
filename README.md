@@ -66,6 +66,11 @@ También hay configuraciones de integración en `opencode.json` y `.mcp.json`, a
 
 ## Inicio rápido para principiantes
 
+Si necesitas instrucciones por sistema operativo o editor, revisa:
+
+- [Instalación en Windows y Linux](docs/install-platforms.md)
+- [Codex, Claude Code, VS Code, Cursor, Windsurf, OpenCode y MCP](docs/agentic-editors.md)
+
 ### 1. Instala prerrequisitos
 
 - Node.js 20+
@@ -159,6 +164,8 @@ npm test
 ## Documentación relevante
 
 - [Guía inicial](docs/getting-started.md)
+- [Instalación en Windows y Linux](docs/install-platforms.md)
+- [Editores agénticos y MCP](docs/agentic-editors.md)
 - [Requisitos](docs/requirements.md)
 - [Arquitectura](docs/architecture.md)
 - [Publicación](docs/publishing.md)

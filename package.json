@@ -15,6 +15,13 @@
   "files": [
     "dist/",
     "README.md",
+    "docs/getting-started.md",
+    "docs/install-platforms.md",
+    "docs/agentic-editors.md",
+    "docs/requirements.md",
+    "docs/architecture.md",
+    "docs/publishing.md",
+    "docs/adr-001-production-readiness.md",
     "LICENSE",
     "CHANGELOG.md",
     "CONTRIBUTING.md",

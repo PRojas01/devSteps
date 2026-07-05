@@ -21,6 +21,8 @@ Entregar una herramienta de orquestación de proyectos lista para producción y 
 - Debe permitir generar documentación base de requisitos, arquitectura, ADR y publicación.
 - Debe permitir configurar integraciones mínimas para GitHub Actions y VS Code.
 - Debe validar artefactos del proyecto contra DS-v1.
+- Debe documentar instalación y uso en Windows y Linux.
+- Debe documentar uso con Codex, Claude Code, VS Code, Cursor, Windsurf, OpenCode y configuraciones MCP.
 
 ## Non-Functional Requirements
 
@@ -66,3 +68,4 @@ Ambos canales deben explicar el proceso y mantener control humano sobre avances,
 - `npm test` pasa.
 - Existen `README.md`, `docs/requirements.md`, `docs/architecture.md`, `CHANGELOG.md` y `LICENSE`.
 - Un usuario principiante puede seguir la guía sin depender de instrucciones externas.
+- La publicación del repositorio incluye guías por plataforma y por editor agéntico.

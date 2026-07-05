@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Correct the repository `devsteps.yaml` identity and add the missing review step before release.
 - Document the tested DevControl setup sequence: `git init`, `sp-devcontrol init`, `sp-devcontrol inject`, then `sp-devcontrol project:check`.
 - Define the two supported user interaction channels: direct CLI and agentic editor through injected instructions.
+- Add published setup guides for Windows, Linux, Codex, Claude Code, VS Code, Cursor, Windsurf, OpenCode and MCP.
 
 ### Added
 

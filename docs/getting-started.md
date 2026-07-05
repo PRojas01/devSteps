@@ -11,6 +11,11 @@ Ayudarte a usar `devSteps` aunque estés empezando desde cero, tanto en desarrol
 - Una terminal
 - Opcional: Codex, Claude Code, OpenCode, Cursor o Windsurf
 
+Guías específicas:
+
+- [Instalación en Windows y Linux](install-platforms.md)
+- [Codex, Claude Code, VS Code, Cursor, Windsurf, OpenCode y MCP](agentic-editors.md)
+
 ## 2. Instala SP-devSteps
 
 ```bash

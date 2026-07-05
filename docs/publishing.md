@@ -11,6 +11,8 @@ Dejar `devSteps` listo para compartirse en GitHub y distribuirse como CLI.
 - `npm run typecheck`
 - `npm test`
 - `npm run validate`
+- Confirmar que `docs/install-platforms.md` cubre Windows y Linux
+- Confirmar que `docs/agentic-editors.md` cubre Codex, Claude Code, VS Code, Cursor, Windsurf, OpenCode y MCP
 
 ## Publicación en GitHub
 
