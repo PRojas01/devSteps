@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps profiles functionality. */
 import chalk from 'chalk'
 import type { StepDefinition, ProjectType } from './types.js'
 import { loadConfig } from './config.js'

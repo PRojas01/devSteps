@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps index functionality. */
 export { PipelineRunner } from './engine/pipeline.js'
 export type { SystemExecutor } from './engine/pipeline.js'
 export { executeStep } from './engine/step.js'

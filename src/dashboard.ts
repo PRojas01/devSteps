@@ -1,12 +1,22 @@
+/** Renders a terminal dashboard for pipeline progress, norms, and tool availability. */
 import chalk from 'chalk'
 import type { PipelineContext } from './types.js'
 import { loadConfig } from './config.js'
 import { loadContextFromDisk } from './engine/checkpoint.js'
 import { DS_V1 } from './standard/ds-v1.js'
-import { getAvailablePipelineTypes } from './catalog/pipelines.js'
 
 interface DashboardOptions {
   refresh?: number
+}
+
+interface DashboardConfigView {
+  project: {
+    name: string
+    type: string
+    stack: string[]
+    standard: string
+  }
+  pipeline: Array<{ id: string; name: string }>
 }
 
 export function runDashboard(root: string, options: DashboardOptions): void {
@@ -27,9 +37,9 @@ export function runDashboard(root: string, options: DashboardOptions): void {
 
     process.stdout.write('\x1b[2J\x1b[H')
 
-    renderHeader(config, savedData)
-    renderPipelineGraph(steps, savedData)
-    renderProgress(steps, savedData)
+    renderHeader(config as DashboardConfigView, savedData)
+    renderPipelineGraph(steps as DashboardConfigView['pipeline'], savedData)
+    renderProgress(steps as DashboardConfigView['pipeline'], savedData)
     renderNormsSummary()
     renderToolStatus()
 
@@ -53,7 +63,7 @@ export function runDashboard(root: string, options: DashboardOptions): void {
   })
 }
 
-function renderHeader(config: any, context: PipelineContext | null): void {
+function renderHeader(config: DashboardConfigView, context: PipelineContext | null): void {
   console.log(chalk.bold('┌─────────────────────────────────────────────────────────────┐'))
   console.log(chalk.bold('│                     DEVSTEPS DASHBOARD                      │'))
   console.log(chalk.bold('└─────────────────────────────────────────────────────────────┘'))
@@ -73,7 +83,7 @@ function renderHeader(config: any, context: PipelineContext | null): void {
   console.log('')
 }
 
-function renderPipelineGraph(steps: any[], context: PipelineContext | null): void {
+function renderPipelineGraph(steps: DashboardConfigView['pipeline'], context: PipelineContext | null): void {
   console.log(chalk.bold('  Pipeline:'))
   console.log('')
 
@@ -107,7 +117,7 @@ function renderPipelineGraph(steps: any[], context: PipelineContext | null): voi
   console.log('')
 }
 
-function renderProgress(steps: any[], context: PipelineContext | null): void {
+function renderProgress(steps: DashboardConfigView['pipeline'], context: PipelineContext | null): void {
   if (!context) return
 
   const total = steps.length
@@ -123,7 +133,7 @@ function renderProgress(steps: any[], context: PipelineContext | null): void {
 
   if (context.artifacts.size > 0) {
     console.log(`  ${chalk.bold('Artefactos:')} ${context.artifacts.size} generados`)
-    const types = [...context.artifacts.values()].reduce((acc: Record<string, number>, a: any) => {
+    const types = [...context.artifacts.values()].reduce((acc: Record<string, number>, a) => {
       acc[a.type] = (acc[a.type] ?? 0) + 1; return acc
     }, {} as Record<string, number>)
     const typeStr = Object.entries(types).map(([t, c]) => `${t}:${c}`).join(', ')

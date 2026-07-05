@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps guide functionality. */
 import inquirer from 'inquirer'
 import chalk from 'chalk'
 import type { StepDefinition, DevStepsConfig, PipelineContext } from './types.js'

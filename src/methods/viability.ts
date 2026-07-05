@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps viability functionality. */
 import type { ViabilityConfig, ViabilityResult, ViabilityDetail } from '../types.js'
 
 const DEFAULT_CONFIG: ViabilityConfig = {

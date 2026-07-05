@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps history functionality. */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { resolve } from 'path'
 import chalk from 'chalk'

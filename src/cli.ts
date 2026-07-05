@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/** Defines the main devSteps CLI and wires commands to pipeline, docs, and tooling actions. */
 import { Command } from 'commander'
 import { existsSync } from 'fs'
 import { resolve } from 'path'
@@ -514,7 +515,7 @@ program.command('checkpoint:save')
       context: ctx,
       label: options.label,
     }
-    const path = saveCheckpointToDisk(cp as any, root)
+    const path = saveCheckpointToDisk(cp, root)
     console.log(`Checkpoint saved: ${path}`)
   })
 
@@ -714,7 +715,10 @@ program.command('terminal')
 program.command('docs')
   .description('Generate project documentation from pipeline context (README, architecture, changelog, ADRs)')
   .option('--readme', 'Generate README.md')
+  .option('--requirements', 'Generate docs/requirements.md')
   .option('--architecture', 'Generate docs/architecture.md')
+  .option('--getting-started', 'Generate docs/getting-started.md')
+  .option('--publishing', 'Generate docs/publishing.md')
   .option('--changelog', 'Generate CHANGELOG.md')
   .option('--decision <title>', 'Generate a new ADR with the given title')
   .option('--all', 'Generate all documentation')

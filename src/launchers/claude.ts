@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps claude functionality. */
 import { execa } from 'execa'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { resolve, join } from 'path'

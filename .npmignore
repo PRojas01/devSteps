@@ -1,0 +1,9 @@
+.devcontrol/
+.devsteps/
+.cursor/
+.windsurf/
+coverage/
+tests/
+docs/internal/
+src/
+*.log

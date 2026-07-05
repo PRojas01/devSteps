@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps devcontrol functionality. */
 import { execa } from 'execa'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { resolve, join } from 'path'

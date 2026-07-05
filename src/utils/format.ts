@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps format functionality. */
 import type { StepResult, DevStepsReport, PipelineContext, NormCheck } from '../types.js'
 
 export function formatStepResult(result: StepResult): string {

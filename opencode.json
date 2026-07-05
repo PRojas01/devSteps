@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "devcontrol": {
+      "type": "remote",
+      "url": "http://localhost:7893/mcp",
+      "enabled": true
+    }
+  },
+  "project": {
+    "family": "SolucionesPro Agentic Stack",
+    "siblingTools": [
+      "sp-devsteps",
+      "sp-devcontrol"
+    ]
+  }
+}

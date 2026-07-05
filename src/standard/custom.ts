@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps custom functionality. */
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import chalk from 'chalk'

@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps index functionality. */
 import type { SystemResult, PipelineContext, SystemId, ToolDetection } from '../types.js'
 import { launchOpencode } from './opencode.js'
 import { launchClaude } from './claude.js'

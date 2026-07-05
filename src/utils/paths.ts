@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps paths functionality. */
 import { resolve } from 'path'
 
 export const DEVSTEPS_DIR = '.devsteps'

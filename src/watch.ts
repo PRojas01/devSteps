@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps watch functionality. */
 import { watch } from 'fs'
 import { resolve, relative } from 'path'
 import chalk from 'chalk'

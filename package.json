@@ -1,21 +1,36 @@
 {
-  "name": "devsteps",
+  "name": "sp-devsteps",
   "version": "1.0.0",
-  "description": "Stage-based project lifecycle orchestrator with multi-agent support",
+  "description": "Project lifecycle orchestrator for AI-assisted development — beginner-friendly pipeline guidance, agent skill injection, and native alignment with DevControl governance",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "bin": {
+    "sp-devsteps": "./dist/cli.js",
     "devsteps": "./dist/cli.js"
   },
   "files": [
     "dist/",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    ".mcp.json",
+    "opencode.json"
   ],
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate": "node dist/cli.js validate",
+    "docs:base": "node dist/cli.js docs --all",
+    "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
     "project-lifecycle",
@@ -23,7 +38,14 @@
     "multi-agent",
     "scaffolding",
     "workflow",
-    "devops"
+    "devops",
+    "codex",
+    "claude-code",
+    "mcp",
+    "developer-onboarding",
+    "devcontrol",
+    "agentic",
+    "project-governance"
   ],
   "dependencies": {
     "blessed": "^0.1.81",
@@ -41,6 +63,22 @@
     "@types/node": "^22.0.0",
     "typescript": "^5.7.3",
     "vitest": "^3.2.3"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Pedro Rojas",
+    "email": "pedro@solucionespro.com",
+    "url": "https://github.com/pedro-rojas"
+  },
+  "contributors": [
+    "SolucionesPro <info@solucionespro.com> (https://solucionespro.com)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PRojas01/sp-devsteps.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "engines": {
     "node": ">=20.0.0"

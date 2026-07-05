@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps detector functionality. */
 import { execa, execaSync } from 'execa'
 import { existsSync, readFileSync } from 'fs'
 import { homedir, platform } from 'os'

@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps skill injector functionality. */
 import { writeFileSync, existsSync, mkdirSync } from 'fs'
 import { resolve, join } from 'path'
 import type { DevStepsConfig, StepDefinition } from './types.js'

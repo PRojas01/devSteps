@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps prompts functionality. */
 import type { AgentPrompt, SystemId, PipelineContext, ArtifactRecord } from '../types.js'
 
 export function buildAgentPrompt(

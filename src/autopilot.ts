@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps autopilot functionality. */
 import chalk from 'chalk'
 import { loadConfig } from './config.js'
 import { PipelineRunner } from './engine/pipeline.js'

@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps checkpoint functionality. */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { resolve, dirname } from 'path'
 import type { Checkpoint } from '../types.js'

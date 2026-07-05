@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps types functionality. */
 export type SystemId = 'opencode' | 'claude' | 'codex' | 'human' | 'devcontrol' | 'auto'
 export type IntegrationMode = 'direct-cli' | 'file-based' | 'api' | 'unavailable'
 

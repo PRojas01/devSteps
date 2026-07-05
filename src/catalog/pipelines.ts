@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps pipelines functionality. */
 import type { PipelineDefinition, ProjectType, StepDefinition } from '../types.js'
 
 const COMMON_KICKOFF: StepDefinition = {

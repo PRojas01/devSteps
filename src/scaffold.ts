@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps scaffold functionality. */
 import { mkdirSync, writeFileSync, existsSync } from 'fs'
 import { resolve, join } from 'path'
 import chalk from 'chalk'

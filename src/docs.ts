@@ -1,16 +1,19 @@
-import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs'
+/** Module purpose: supports devSteps docs functionality. */
+import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync } from 'fs'
 import { resolve } from 'path'
 import chalk from 'chalk'
 import { loadConfig } from './config.js'
 import { loadContextFromDisk } from './engine/checkpoint.js'
 import { DS_V1 } from './standard/ds-v1.js'
-import { getPipelineForType } from './catalog/pipelines.js'
-import type { PipelineContext, StepDefinition } from './types.js'
+import type { DevStepsConfig, PipelineContext, StepDefinition } from './types.js'
 
 interface DocsOptions {
   all?: boolean
   readme?: boolean
+  requirements?: boolean
   architecture?: boolean
+  gettingStarted?: boolean
+  publishing?: boolean
   changelog?: boolean
   decision?: string
 }
@@ -33,8 +36,23 @@ export function generateDocs(root: string, options: DocsOptions): void {
     generated++
   }
 
+  if (options.requirements || options.all) {
+    generateRequirementsDoc(root, config)
+    generated++
+  }
+
   if (options.architecture || options.all) {
     generateArchitectureDoc(root, config)
+    generated++
+  }
+
+  if (options.gettingStarted || options.all) {
+    generateGettingStartedDoc(root, config)
+    generated++
+  }
+
+  if (options.publishing || options.all) {
+    generatePublishingDoc(root, config)
     generated++
   }
 
@@ -48,7 +66,7 @@ export function generateDocs(root: string, options: DocsOptions): void {
     generated++
   }
 
-  if (!options.all && !options.readme && !options.architecture && !options.changelog && !options.decision) {
+  if (!options.all && !options.readme && !options.requirements && !options.architecture && !options.gettingStarted && !options.publishing && !options.changelog && !options.decision) {
     generateAll(root, config, context)
     return
   }
@@ -56,59 +74,134 @@ export function generateDocs(root: string, options: DocsOptions): void {
   console.log(chalk.green(`\n  Documentación generada: ${generated} archivos\n`))
 }
 
-function generateAll(root: string, config: any, context: PipelineContext | null): void {
+function generateAll(root: string, config: DevStepsConfig, context: PipelineContext | null): void {
   console.log(chalk.bold('\n  📝 devSteps Docs — Generación de documentación\n'))
   console.log(chalk.cyan('Uso:'))
   console.log('  devsteps docs --readme          Generar/actualizar README.md')
+  console.log('  devsteps docs --requirements    Generar docs/requirements.md')
   console.log('  devsteps docs --architecture    Generar docs de arquitectura')
+  console.log('  devsteps docs --getting-started Generar guía paso a paso para principiantes')
+  console.log('  devsteps docs --publishing      Generar guía de publicación')
   console.log('  devsteps docs --changelog       Generar CHANGELOG.md')
   console.log('  devsteps docs --decision <tema> Generar ADR')
   console.log('  devsteps docs --all             Generar toda la documentación base')
   console.log('')
 
   generateReadme(root, config, context)
+  generateRequirementsDoc(root, config)
   generateArchitectureDoc(root, config)
+  generateGettingStartedDoc(root, config)
+  generatePublishingDoc(root, config)
   generateChangelog(root, context)
 
   console.log(chalk.green('\n  Documentación base generada en docs/ y raíz del proyecto\n'))
 }
 
-function generateReadme(root: string, config: any, context: PipelineContext | null): void {
+function generateReadme(root: string, config: DevStepsConfig, context: PipelineContext | null): void {
   const steps = config.pipeline as StepDefinition[]
   const completedSteps = context?.completedSteps ?? []
+  const installCommand = 'npm install && npm run build && npm link'
 
   const content = `# ${config.project.name}
 
-${config.project.description || `Proyecto tipo ${config.project.type} gestionado con devSteps.`}
+${config.project.description || 'Orquestador de proyectos por etapas, pensado para personas que empiezan desde cero y quieren apoyarse en agentes como Codex, Claude Code u OpenCode sin perder control del proceso.'}
 
-## Stack
+## Que resuelve
 
-${config.project.stack.map((s: string) => `- ${s}`).join('\n')}
+- Convierte una idea en un proyecto ejecutable usando un pipeline visible y auditable.
+- Enseña el flujo paso a paso: idea, diseño, inicialización, desarrollo, verificación, release y mantenimiento.
+- Permite trabajar en tres superficies principales:
+  - CLI instalable para uso local y automatización.
+  - Skill/instrucciones inyectables para agentes y editores.
+  - Configuración de integración para extensiones y entornos MCP.
 
-## Pipeline Status
+## Perfil objetivo
+
+Personas que están empezando a desarrollar proyectos y también a trabajar con editores agénticos. La prioridad es claridad operativa antes que automatización opaca.
+
+## Instalación rápida
+
+### Opción 1: uso local para contribuir al proyecto
+
+\`\`\`bash
+npm install
+npm run build
+npm test
+\`\`\`
+
+### Opción 2: instalar el CLI en tu máquina
+
+\`\`\`bash
+${installCommand}
+\`\`\`
+
+Después podrás usar:
+
+\`\`\`bash
+devsteps --help
+\`\`\`
+
+## Primer recorrido recomendado
+
+1. Inicializa o revisa el proyecto con \`devsteps status\`.
+2. Sigue la guía para principiantes con \`devsteps guide\`.
+3. Genera documentos base con \`devsteps docs --all\`.
+4. Inyecta reglas para agentes con \`devsteps inject\`.
+5. Valida el estado del proyecto con \`devsteps validate\`.
+
+## Tres modos de trabajo
+
+### 1. CLI instalable
+
+- Comando principal: \`devsteps\`
+- Uso recomendado: terminal, automatización local, CI y control explícito del pipeline.
+
+### 2. Skill para agentes
+
+- Comando principal: \`devsteps inject\`
+- Archivos generados: \`AGENTS.md\`, \`CLAUDE.md\`, \`.cursorrules\`, \`.windsurfrules\`
+- Uso recomendado: Cursor, Claude Code, Windsurf, Codex y flujos similares.
+
+### 3. Extensión o MCP
+
+- Comandos útiles: \`devsteps plugins --install vscode\`, \`devsteps plugins --install github-actions\`
+- Archivo de ejemplo MCP: \`opencode.json\`
+- Uso recomendado: conectar el proyecto con editores y herramientas que exponen contexto vía plugins o MCP.
+
+## Documentación guiada
+
+- [docs/getting-started.md](docs/getting-started.md)
+- [docs/requirements.md](docs/requirements.md)
+- [docs/architecture.md](docs/architecture.md)
+- [docs/publishing.md](docs/publishing.md)
+
+## Estado del pipeline
 
 ${context ? `**Estado:** ${context.status.toUpperCase()}\n**Progreso:** ${completedSteps.length}/${steps.length} pasos completados` : '**Estado:** No iniciado'}
 
-## Pipeline Steps
+## Pasos del pipeline
 
 ${steps.map((s, i) => {
   const done = completedSteps.includes(s.id)
-  return `${done ? '- [x]' : '- [ ]'} **${s.name}** — ${s.description}`
+  return `${done ? '- [x]' : '- [ ]'} **${i + 1}. ${s.name}** — ${s.description}`
 }).join('\n')}
 
-## Estándar
-
-Este proyecto sigue el estándar **${config.project.standard}** (${DS_V1.norms.length} normas).
-
-## Scripts
+## Scripts y comandos útiles
 
 | Comando | Descripción |
 |---------|-------------|
-| \`npm run build\` | Compilar TypeScript |
-| \`npm run dev\` | Ejecutar en modo desarrollo |
-| \`npm test\` | Ejecutar tests |
-| \`npm run lint\` | Lint de código |
-| \`devsteps guide\` | Guía interactiva |
+| \`npm run build\` | Compilar TypeScript a \`dist/\` |
+| \`npm run typecheck\` | Verificar tipos sin emitir |
+| \`npm test\` | Ejecutar la suite de tests |
+| \`npm run validate\` | Ejecutar validación DS-v1 |
+| \`devsteps guide\` | Guía interactiva paso a paso |
+| \`devsteps inject\` | Generar archivos para agentes |
+| \`devsteps docs --all\` | Generar documentación base |
+| \`devsteps plugins --install vscode\` | Preparar integración con VS Code |
+
+## Estándar de calidad
+
+Este proyecto sigue **${config.project.standard}** y actualmente define ${DS_V1.norms.length} normas entre documentación, seguridad, arquitectura, testing y release.
 
 ## Licencia
 
@@ -118,7 +211,58 @@ MIT
   console.log(chalk.green('  ✓ README.md'))
 }
 
-function generateArchitectureDoc(root: string, config: any): void {
+function generateRequirementsDoc(root: string, config: DevStepsConfig): void {
+  const dir = resolve(root, 'docs')
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+
+  const content = `# Requirements — ${config.project.name}
+
+## Product Goal
+
+Entregar una herramienta lista para producción y publicación que ayude a una persona principiante a ejecutar un proyecto de software con un pipeline claro y reusable.
+
+## Target User
+
+- Persona que empieza prácticamente desde cero en desarrollo.
+- Persona que necesita instrucciones operativas paso a paso.
+- Persona que quiere aprender a usar agentes como Codex, Claude Code u OpenCode sin perder visibilidad del proceso.
+
+## Functional Requirements
+
+- Debe ofrecer un CLI instalable con comandos para inicializar, ejecutar, validar y documentar proyectos.
+- Debe permitir un modo guiado paso a paso para acompañar a usuarios principiantes.
+- Debe poder generar archivos de instrucciones para agentes y editores.
+- Debe soportar una superficie de integración para extensiones o entornos basados en MCP.
+- Debe permitir validar artefactos del proyecto contra el estándar DS-v1.
+- Debe generar documentación base de producto, arquitectura, ADR y publicación.
+- Debe permitir configurar automatización mínima para GitHub Actions y VS Code.
+
+## Non-Functional Requirements
+
+- Debe ejecutarse con Node.js 20 o superior.
+- Debe compilar en TypeScript estricto.
+- Debe exponer un flujo entendible desde terminal sin requerir conocimiento previo profundo.
+- Debe funcionar sin credenciales embebidas en código.
+- Debe poder compartirse en GitHub con documentación suficiente para onboarding y contribución.
+
+## Distribution Modes
+
+- CLI instalable por \`npm\` o \`npm link\`.
+- Skill/instrucciones de agente generadas por \`devsteps inject\`.
+- Integración por plugin o MCP usando archivos y configuración del proyecto.
+
+## Success Criteria
+
+- \`npm run build\`, \`npm run typecheck\` y \`npm test\` deben pasar.
+- Deben existir \`README.md\`, \`docs/requirements.md\`, \`docs/architecture.md\`, \`CHANGELOG.md\` y \`LICENSE\`.
+- Un usuario nuevo debe poder ejecutar un primer flujo siguiendo solo la documentación.
+`
+
+  writeFileSync(resolve(dir, 'requirements.md'), content, 'utf-8')
+  console.log(chalk.green('  ✓ docs/requirements.md'))
+}
+
+function generateArchitectureDoc(root: string, config: DevStepsConfig): void {
   const dir = resolve(root, 'docs')
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
 
@@ -126,32 +270,203 @@ function generateArchitectureDoc(root: string, config: any): void {
 
 ## Overview
 
-${config.project.description || `Arquitectura para proyecto tipo ${config.project.type}.`}
+${config.project.description || 'CLI en TypeScript para orquestar el ciclo de vida de un proyecto con soporte para agentes, documentación y validación.'}
 
-## Stack
+## Runtime Stack
 
 ${config.project.stack.map((s: string) => `- ${s}`).join('\n')}
 
-## Estándar
+## Core Components
 
-Este proyecto sigue el estándar **${config.project.standard}**.
+- \`src/cli.ts\`: punto de entrada del CLI y registro de comandos.
+- \`src/engine/*\`: ejecución del pipeline, contexto, gates y checkpoints.
+- \`src/launchers/*\`: adaptadores para sistemas como Codex, Claude, OpenCode, humano y auto.
+- \`src/standard/*\`: definición DS-v1 y validadores.
+- \`src/docs.ts\`, \`src/guide.ts\`, \`src/plugins.ts\`: experiencia de onboarding, documentación e integraciones.
+
+## System Flow
+
+1. El usuario ejecuta el CLI.
+2. El CLI carga \`devsteps.yaml\`.
+3. El engine resuelve el paso actual del pipeline.
+4. Los launchers ejecutan sistemas humanos, automáticos o agentes.
+5. Los resultados se guardan como contexto, checkpoints y artefactos.
+6. La validación DS-v1 comprueba documentación, seguridad y release.
+
+## Main Operating Modes
+
+- CLI: operación directa desde terminal.
+- Skill: generación de archivos de instrucciones para agentes y editores.
+- Extension/MCP: integración con VS Code, GitHub Actions y configuraciones compatibles con MCP.
 
 ## Pipeline
 
 El pipeline de desarrollo está definido en \`devsteps.yaml\` con ${config.pipeline.length} pasos:
 
-${config.pipeline.map((s: any) => `- **${s.name}**: ${s.description}`).join('\n')}
+${config.pipeline.map((s) => `- **${s.name}**: ${s.description}`).join('\n')}
 
-## Normas Aplicables
+## Quality Boundary
 
-${DS_V1.norms.filter(n => n.severity === 'error').map(n => `- **${n.id}** (${n.category}): ${n.description}`).join('\n')}
+- TypeScript estricto como base de confiabilidad.
+- Validación DS-v1 para documentación, setup y seguridad.
+- Tests en Vitest como red mínima para evolución del CLI.
+- Publicación soportada por build reproducible y documentación generada.
 
-## Decisiones
+## ADR Policy
 
 Las decisiones de arquitectura se documentan como ADRs en \`docs/adr-*.md\`.
 `
   writeFileSync(resolve(dir, 'architecture.md'), content, 'utf-8')
   console.log(chalk.green('  ✓ docs/architecture.md'))
+}
+
+function generateGettingStartedDoc(root: string, config: DevStepsConfig): void {
+  const dir = resolve(root, 'docs')
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+
+  const content = `# Getting Started
+
+## 1. Instala prerrequisitos
+
+- Node.js 20 o superior
+- Git
+- Una terminal
+- Opcional: Codex, Claude Code, OpenCode, Cursor o Windsurf
+
+## 2. Clona o abre el proyecto
+
+\`\`\`bash
+git clone <tu-repo>
+cd devSteps
+\`\`\`
+
+## 3. Instala dependencias y verifica el estado
+
+\`\`\`bash
+npm install
+npm run build
+npm test
+\`\`\`
+
+## 4. Recorre la experiencia guiada
+
+\`\`\`bash
+devsteps guide
+\`\`\`
+
+Este modo explica cada paso del pipeline y es la entrada recomendada para principiantes.
+
+## 5. Activa el modo skill para agentes
+
+\`\`\`bash
+devsteps inject
+\`\`\`
+
+Esto genera archivos como \`AGENTS.md\` y \`CLAUDE.md\` para que el editor o agente tenga contexto estable.
+
+## 6. Configura tu editor
+
+### VS Code
+
+\`\`\`bash
+devsteps plugins --install vscode
+\`\`\`
+
+### OpenCode / MCP
+
+Revisa y adapta \`opencode.json\` para conectar servicios MCP del proyecto.
+
+## 7. Valida antes de continuar
+
+\`\`\`bash
+npm run validate
+\`\`\`
+
+## 8. Flujo recomendado de trabajo
+
+1. Define o revisa la idea.
+2. Completa requisitos y arquitectura.
+3. Usa \`devsteps guide\` o \`devsteps run\`.
+4. Valida con tests y DS-v1.
+5. Publica cambios con commits convencionales.
+`
+
+  writeFileSync(resolve(dir, 'getting-started.md'), content, 'utf-8')
+  console.log(chalk.green('  ✓ docs/getting-started.md'))
+}
+
+function generatePublishingDoc(root: string, config: DevStepsConfig): void {
+  const dir = resolve(root, 'docs')
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+
+  const content = `# Publishing
+
+## Objective
+
+Publicar ${config.project.name} de forma compartible en GitHub y dejarlo listo para distribución como CLI.
+
+## Checklist previa
+
+- Ejecutar \`npm run build\`
+- Ejecutar \`npm run typecheck\`
+- Ejecutar \`npm test\`
+- Confirmar que existen README, LICENSE y CHANGELOG
+- Confirmar que \`devsteps validate\` no reporta faltantes críticos de documentación
+
+## Publicación en GitHub
+
+1. Crea el repositorio remoto.
+2. Añade el remoto:
+
+\`\`\`bash
+git remote add origin <url-del-repo>
+\`\`\`
+
+3. Crea una rama principal si hace falta:
+
+\`\`\`bash
+git branch -M main
+\`\`\`
+
+4. Sube el proyecto:
+
+\`\`\`bash
+git push -u origin main
+\`\`\`
+
+## CI recomendado
+
+Puedes generar una base con:
+
+\`\`\`bash
+devsteps plugins --install github-actions
+\`\`\`
+
+## Publicación como CLI
+
+### Prueba local
+
+\`\`\`bash
+npm link
+devsteps --help
+\`\`\`
+
+### Publicación en npm
+
+\`\`\`bash
+npm publish
+\`\`\`
+
+## Release discipline
+
+- Usa Conventional Commits.
+- Actualiza \`CHANGELOG.md\`.
+- Mantén SemVer en \`package.json\`.
+- Documenta decisiones importantes como ADR.
+`
+
+  writeFileSync(resolve(dir, 'publishing.md'), content, 'utf-8')
+  console.log(chalk.green('  ✓ docs/publishing.md'))
 }
 
 function generateChangelog(root: string, context: PipelineContext | null): void {
@@ -199,10 +514,9 @@ function generateAdr(root: string, title: string): void {
 
   const date = new Date().toISOString().split('T')[0]
   const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-  const adrs = existsSync(dir)
-    ? readFileSync(dir, 'utf-8')
-    : ''
-  const adrCount = (adrs.match(/ADR-\d+/g) ?? []).length
+  const adrCount = existsSync(dir)
+    ? readdirSync(dir).filter((file) => /^adr-\d{3}-.*\.md$/i.test(file)).length
+    : 0
   const adrNum = adrCount + 1
 
   const content = `# ADR-${String(adrNum).padStart(3, '0')}: ${title}

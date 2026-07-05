@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps gates functionality. */
 import type { GateCheck, GateResult } from '../types.js'
 
 export function evaluateEntryCriteria(criteria: string[], context: Record<string, unknown>): GateCheck[] {

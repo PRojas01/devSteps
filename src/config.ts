@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps config functionality. */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { resolve } from 'path'
 import { load, dump } from 'js-yaml'

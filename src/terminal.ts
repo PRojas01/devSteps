@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps terminal functionality. */
 import { spawn, execSync } from 'child_process'
 import { existsSync } from 'fs'
 import { resolve } from 'path'

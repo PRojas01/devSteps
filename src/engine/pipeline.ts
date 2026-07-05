@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps pipeline functionality. */
 import type {
   StepDefinition, StepResult, PipelineContext, PipelineStatus, StepStatus, DevStepsReport, SystemResult,
 } from '../types.js'

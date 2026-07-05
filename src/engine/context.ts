@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps context functionality. */
 import type { PipelineContext, ArtifactRecord, Checkpoint } from '../types.js'
 
 export function createContext(pipelineId: string, metadata?: Record<string, unknown>): PipelineContext {

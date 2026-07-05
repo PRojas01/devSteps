@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps git hooks functionality. */
 import { writeFileSync, existsSync, mkdirSync, chmodSync } from 'fs'
 import { resolve } from 'path'
 import chalk from 'chalk'

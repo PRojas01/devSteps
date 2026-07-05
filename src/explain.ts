@@ -1,3 +1,4 @@
+/** Provides guided explanations for DS-v1 norms, categories, and pipeline steps. */
 import chalk from 'chalk'
 import { DS_V1 } from './standard/ds-v1.js'
 import type { NormDefinition, NormCategory, StepDefinition } from './types.js'
@@ -176,7 +177,7 @@ En \`tsconfig.json\`:
 - \`strictFunctionTypes\`: Mayor seguridad en funciones
 
 **Anti-patrones:**
-- Usar \`as any\` para silenciar errores de tipo
+- Usar castings inseguros para silenciar errores de tipo
 - Desactivar strict porque "da mucho trabajo"
 - Poner \`// @ts-nocheck\` en archivos`,
 

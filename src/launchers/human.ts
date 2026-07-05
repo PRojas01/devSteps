@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps human functionality. */
 import inquirer from 'inquirer'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { resolve, join } from 'path'

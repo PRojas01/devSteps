@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps ds v1 functionality. */
 import type { StandardDefinition, NormDefinition, NormCategory, Severity } from '../types.js'
 
 function norm(

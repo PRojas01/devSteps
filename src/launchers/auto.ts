@@ -1,3 +1,4 @@
+/** Module purpose: supports devSteps auto functionality. */
 import { execa } from 'execa'
 import type { SystemResult, PipelineContext } from '../types.js'
 
