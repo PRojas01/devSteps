@@ -42,7 +42,14 @@
 - `SP-DevControl` aplica gates, políticas, monitoreo y aprobación humana.
 - Ambos comparten archivos de contexto para editores y entornos MCP.
 
-## Operating Modes
+## Interaction Channels
+
+- Direct CLI: el usuario ejecuta comandos, ve resultados en terminal y decide cuándo avanzar.
+- Agentic editor: el usuario conversa con un agente en Codex, Claude Code, Cursor, Windsurf u OpenCode; el agente lee los archivos inyectados y actúa como operador guiado del pipeline.
+
+Ambos canales comparten `devsteps.yaml`, DS-v1, documentación del proyecto y, cuando aplica, reglas de DevControl.
+
+## Distribution Modes
 
 ### CLI
 

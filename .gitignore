@@ -35,6 +35,9 @@ Desktop.ini
 .devsteps/context/
 .devsteps/*.json
 
+# Local archives created during agent cleanup
+.archive/
+
 # Keep devsteps.yaml tracked
 
 # Logs

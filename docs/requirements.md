@@ -15,6 +15,7 @@ Entregar una herramienta de orquestación de proyectos lista para producción y 
 - Debe exponer un CLI instalable con comandos de inicialización, ejecución, validación y documentación.
 - Debe ofrecer un modo guiado paso a paso para recorrer el pipeline.
 - Debe generar archivos de contexto para agentes y editores.
+- Debe permitir que el usuario interactúe directamente desde el CLI o indirectamente desde un editor agéntico mediante instrucciones generadas.
 - Debe contemplar un tercer modo de integración mediante extensiones o MCP.
 - Debe alinearse operativamente con `SP-DevControl` como herramienta hermana de gobernanza.
 - Debe permitir generar documentación base de requisitos, arquitectura, ADR y publicación.
@@ -28,6 +29,13 @@ Entregar una herramienta de orquestación de proyectos lista para producción y 
 - Debe evitar secretos embebidos en código.
 - Debe ser entendible para un usuario nuevo leyendo solo la documentación incluida.
 - Debe soportar publicación como repositorio GitHub y distribución como CLI.
+
+## Interaction Channels
+
+- CLI directo: el usuario ejecuta comandos como `devsteps guide`, `devsteps validate` y `devsteps run`.
+- Editor agéntico: el usuario conversa con Codex, Claude Code, Cursor, Windsurf u OpenCode, y el agente usa `AGENTS.md`, `CLAUDE.md`, `.cursorrules` o `.windsurfrules` para seguir el pipeline.
+
+Ambos canales deben explicar el proceso y mantener control humano sobre avances, validaciones y decisiones.
 
 ## Supported Product Modes
 

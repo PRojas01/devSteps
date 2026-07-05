@@ -440,7 +440,12 @@ Permission is hereby granted...
 
   console.log(chalk.cyan(`\nSiguientes pasos:`))
   console.log(`  cd ${root}`)
+  console.log(`  git init                              (requerido si usarás DevControl)`)
   console.log(`  npm install`)
+  console.log(`  devsteps validate`)
+  console.log(`  sp-devcontrol init                    (opcional: gobernanza)`)
+  console.log(`  sp-devcontrol inject                  (opcional: reglas de agentes)`)
+  console.log(`  sp-devcontrol project:check           (opcional: chequeo de gobernanza)`)
   console.log(`  devsteps terminal --command guide        (abrir guía en terminal nueva)`)
   console.log(`  devsteps guide                            (guía interactiva aquí)`)
 }

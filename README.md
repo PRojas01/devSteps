@@ -27,6 +27,8 @@ En una instalación completa, `devSteps` orquesta y `DevControl` vigila.
 
 ## Tres modos principales
 
+devSteps puede operar en dos canales de interacción: el usuario puede trabajar directamente en la terminal con el CLI, o puede trabajar desde un editor agéntico donde el agente lee las instrucciones generadas y guía/ejecuta el flujo dentro del proyecto.
+
 ### 1. CLI instalable
 
 Uso principal en terminal:
@@ -38,7 +40,7 @@ devsteps --help
 
 ### 2. Skill / instrucciones para agentes
 
-Genera contexto reutilizable para herramientas como Claude Code, Cursor o Windsurf:
+Genera contexto reutilizable para herramientas como Codex, Claude Code, Cursor o Windsurf. Este modo permite que el usuario converse con el agente en el editor, mientras el agente sigue el pipeline, las reglas DS-v1 y las instrucciones del proyecto:
 
 ```bash
 devsteps inject
@@ -108,6 +110,8 @@ devsteps inject
 ### 6. Si usarás gobernanza, conecta DevControl
 
 ```bash
+git init
+sp-devcontrol init
 sp-devcontrol inject
 sp-devcontrol project:check
 ```
@@ -138,7 +142,8 @@ npm test
 | `devsteps docs --all` | Generar documentación base |
 | `devsteps plugins --install vscode` | Preparar VS Code |
 | `devsteps plugins --install github-actions` | Preparar CI en GitHub |
-| `sp-devcontrol inject` | Inyectar gobernanza DevControl en el mismo proyecto |
+| `sp-devcontrol init` | Inicializar gobernanza DevControl en el mismo proyecto |
+| `sp-devcontrol inject` | Inyectar reglas de agentes de DevControl |
 
 ## Pipeline base
 

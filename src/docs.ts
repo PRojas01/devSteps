@@ -148,11 +148,13 @@ npm link
 2. Genera la base con \`devsteps scaffold --name "Mi Primer Proyecto" --type web-app --stack typescript,node --force\`.
 3. Sigue la guía para principiantes con \`devsteps guide\`.
 4. Inyecta reglas para agentes con \`devsteps inject\`.
-5. Si usas DevControl, ejecuta \`sp-devcontrol inject\` y \`sp-devcontrol project:check\`.
+5. Si usas DevControl, ejecuta \`git init\`, \`sp-devcontrol init\`, \`sp-devcontrol inject\` y \`sp-devcontrol project:check\`.
 6. Valida el estado del proyecto con \`devsteps validate\`.
 7. Instala dependencias del proyecto generado con \`npm install\`, luego ejecuta \`npm run build\` y \`npm test\`.
 
 ## Tres modos de trabajo
+
+devSteps puede operar por dos canales de interacción: el usuario trabaja directamente en la terminal con el CLI, o trabaja desde un editor agéntico donde el agente lee las instrucciones generadas y usa el pipeline como guía operativa.
 
 ### 1. CLI instalable
 
@@ -163,7 +165,7 @@ npm link
 
 - Comando principal: \`devsteps inject\`
 - Archivos generados: \`AGENTS.md\`, \`CLAUDE.md\`, \`.cursorrules\`, \`.windsurfrules\`
-- Uso recomendado: Cursor, Claude Code, Windsurf, Codex y flujos similares.
+- Uso recomendado: Cursor, Claude Code, Windsurf, Codex y flujos similares, permitiendo que el usuario converse con el agente en el editor mientras el agente sigue DS-v1 y \`devsteps.yaml\`.
 
 ### 3. Extensión o MCP
 
@@ -235,6 +237,7 @@ Entregar una herramienta lista para producción y publicación que ayude a una p
 - Debe ofrecer un CLI instalable con comandos para inicializar, ejecutar, validar y documentar proyectos.
 - Debe permitir un modo guiado paso a paso para acompañar a usuarios principiantes.
 - Debe poder generar archivos de instrucciones para agentes y editores.
+- Debe permitir interacción directa desde CLI e interacción mediada desde editores agénticos mediante instrucciones generadas.
 - Debe soportar una superficie de integración para extensiones o entornos basados en MCP.
 - Debe permitir validar artefactos del proyecto contra el estándar DS-v1.
 - Debe generar documentación base de producto, arquitectura, ADR y publicación.
@@ -247,6 +250,13 @@ Entregar una herramienta lista para producción y publicación que ayude a una p
 - Debe exponer un flujo entendible desde terminal sin requerir conocimiento previo profundo.
 - Debe funcionar sin credenciales embebidas en código.
 - Debe poder compartirse en GitHub con documentación suficiente para onboarding y contribución.
+
+## Interaction Channels
+
+- CLI directo: el usuario ejecuta \`devsteps guide\`, \`devsteps validate\`, \`devsteps run\` y revisa la salida en terminal.
+- Editor agéntico: el usuario conversa con Codex, Claude Code, Cursor, Windsurf u OpenCode, y el agente usa \`AGENTS.md\`, \`CLAUDE.md\`, \`.cursorrules\` o \`.windsurfrules\` para seguir el pipeline.
+
+Ambos canales deben explicar el proceso y mantener control humano sobre avances, validaciones y decisiones.
 
 ## Distribution Modes
 
@@ -296,7 +306,14 @@ ${config.project.stack.map((s: string) => `- ${s}`).join('\n')}
 5. Los resultados se guardan como contexto, checkpoints y artefactos.
 6. La validación DS-v1 comprueba documentación, seguridad y release.
 
-## Main Operating Modes
+## Interaction Channels
+
+- Direct CLI: el usuario ejecuta comandos, ve resultados en terminal y decide cuándo avanzar.
+- Agentic editor: el usuario conversa con un agente en Codex, Claude Code, Cursor, Windsurf u OpenCode; el agente lee los archivos inyectados y actúa como operador guiado del pipeline.
+
+Ambos canales comparten \`devsteps.yaml\`, DS-v1, documentación del proyecto y, cuando aplica, reglas de DevControl.
+
+## Distribution Modes
 
 - CLI: operación directa desde terminal.
 - Skill: generación de archivos de instrucciones para agentes y editores.
@@ -369,6 +386,8 @@ devsteps guide
 
 Este modo explica cada paso del pipeline y es la entrada recomendada para principiantes.
 
+Puedes trabajar de dos formas: directamente en la terminal con \`devsteps guide\`, \`devsteps validate\` y \`devsteps run\`, o desde un editor agéntico después de ejecutar \`devsteps inject\`.
+
 ## 5. Activa el modo skill para agentes y editores
 
 \`\`\`bash
@@ -380,11 +399,13 @@ Esto genera archivos como \`AGENTS.md\` y \`CLAUDE.md\` para que el editor o age
 ## 6. Alinea con DevControl si está disponible
 
 \`\`\`bash
+git init
+sp-devcontrol init
 sp-devcontrol inject
 sp-devcontrol project:check
 \`\`\`
 
-DevControl funciona como proyecto hermano: agrega gobernanza, comprobaciones y reportes complementarios al pipeline de devSteps.
+DevControl funciona como proyecto hermano: agrega gobernanza, comprobaciones y reportes complementarios al pipeline de devSteps. El paso \`git init\` es necesario porque DevControl valida estado y políticas sobre un repositorio Git.
 
 ## 7. Configura tu editor
 

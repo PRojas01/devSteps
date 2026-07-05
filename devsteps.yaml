@@ -1,8 +1,8 @@
 project:
-  name: SP-Ideas
+  name: SP-devSteps
   type: cli-tool
-  version: 0.1.0
-  description: Un sistema para evaluar, estructurar y generar un registro de ideas
+  version: 1.0.0
+  description: Orquestador de ciclo de vida para proyectos asistidos por IA, con onboarding para principiantes, skill injection y alineación con DevControl
   stack:
     - typescript
     - node
@@ -186,13 +186,44 @@ pipeline:
       - test:pass
       - DS-070:validated
     next:
-      onSuccess: 6-release
+      onSuccess: 5.5-review
       onFailure: redirect
       onFailureTarget: 4-develop
       onPartial: review
     output:
       - test-report.md
     estimatedDuration: 30min-2h
+  - id: 5.5-review
+    name: Revisar
+    description: Code review y validación final antes de release
+    roles:
+      execute:
+        - opencode
+      approve: human
+      governance:
+        - devcontrol
+    systems:
+      - system: opencode
+        role: execute
+        config:
+          prompt: Revisa el código, la documentación, los tests y los riesgos antes de release.
+      - system: devcontrol
+        role: governance
+        config:
+          action: validate
+    entryCriteria:
+      - test:pass
+      - DS-050:validated
+    exitCriteria:
+      - review:approved
+    next:
+      onSuccess: 6-release
+      onFailure: redirect
+      onFailureTarget: 4-develop
+      onPartial: review
+    output:
+      - review-report.md
+    estimatedDuration: 30min-1h
   - id: 6-release
     name: Release
     description: Versionado, changelog, build y publicación

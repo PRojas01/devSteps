@@ -55,6 +55,8 @@ devsteps guide
 
 Este es el punto de entrada recomendado si todavía no sabes bien en qué orden hacer las cosas.
 
+Puedes trabajar de dos formas: directamente en la terminal con `devsteps guide`, `devsteps validate` y `devsteps run`, o desde un editor agéntico después de ejecutar `devsteps inject`.
+
 ## 7. Activa el modo skill para agentes
 
 ```bash
@@ -68,11 +70,13 @@ Esto genera archivos que explican a los agentes cómo deben trabajar dentro del 
 Si vas a trabajar con agentes reales, esta es la combinación recomendada:
 
 ```bash
+git init
+sp-devcontrol init
 sp-devcontrol inject
 sp-devcontrol project:check
 ```
 
-Con esto el proyecto tendrá contexto de pipeline y también reglas/gates de gobernanza.
+Con esto el proyecto tendrá repositorio Git, contexto de pipeline y reglas/gates de gobernanza.
 
 ## 9. Configura el editor
 
@@ -103,7 +107,7 @@ devsteps validate
 1. Crea el proyecto con `devsteps scaffold`.
 2. Usa `devsteps guide`.
 3. Inyecta `devsteps inject`.
-4. Si habrá agentes, activa `sp-devcontrol inject` y revisa `sp-devcontrol project:check`.
+4. Si habrá agentes, ejecuta `git init`, `sp-devcontrol init`, `sp-devcontrol inject` y revisa `sp-devcontrol project:check`.
 5. Documenta diseño y arquitectura.
 6. Ejecuta cambios.
 7. Corre tests y validación.

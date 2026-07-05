@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Generate beginner scaffolds that satisfy DS-v1 file checks and avoid broken default scripts.
 - Align DevControl launcher commands with the current DevControl CLI.
 - Update generated documentation templates so onboarding starts from install, scaffold, agent injection and validation.
+- Correct the repository `devsteps.yaml` identity and add the missing review step before release.
+- Document the tested DevControl setup sequence: `git init`, `sp-devcontrol init`, `sp-devcontrol inject`, then `sp-devcontrol project:check`.
+- Define the two supported user interaction channels: direct CLI and agentic editor through injected instructions.
 
 ### Added
 
