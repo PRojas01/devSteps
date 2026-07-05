@@ -1,6 +1,6 @@
 /** Module purpose: supports devSteps devcontrol functionality. */
 import { execa } from 'execa'
-import { existsSync, mkdirSync, writeFileSync } from 'fs'
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
 import { resolve, join } from 'path'
 import type { SystemResult, PipelineContext } from '../types.js'
 import { detectTool } from './detector.js'
@@ -60,7 +60,6 @@ async function startSession(
     'session:start',
     '--objective', objective,
     '--agent', (config.agent as string) ?? 'opencode',
-    '--skip-preflight',
   ], { cwd, timeout: 30_000, reject: false })
 
   if (exitCode !== 0) {
@@ -93,7 +92,7 @@ async function startWatch(
     return { systemId: 'devcontrol', success: false, error: 'No active session. Run session:start first.' }
   }
 
-  const session: DevcontrolSession = JSON.parse(require('fs').readFileSync(sessionFile, 'utf-8'))
+  const session: DevcontrolSession = JSON.parse(readFileSync(sessionFile, 'utf-8')) as DevcontrolSession
 
   try {
     const child = execa('sp-devcontrol', ['watch:start', '--session', session.id], {
@@ -136,7 +135,7 @@ async function closeSession(
   }
 
   const sessionId = config.sessionId as string
-    ?? JSON.parse(require('fs').readFileSync(sessionFile, 'utf-8')).id
+    ?? (JSON.parse(readFileSync(sessionFile, 'utf-8')) as DevcontrolSession).id
   const status = (config.status as string) ?? 'completed'
 
   const { stdout, exitCode } = await execa('sp-devcontrol', [
@@ -144,7 +143,7 @@ async function closeSession(
   ], { cwd, timeout: 30_000, reject: false })
 
   if (exitCode === 0 && existsSync(sessionFile)) {
-    require('fs').unlinkSync(sessionFile)
+    unlinkSync(sessionFile)
   }
 
   return {
@@ -176,11 +175,8 @@ async function sessionReport(
   }
 }
 
-async function runValidate(cwd: string, config: Record<string, unknown>): Promise<SystemResult> {
-  const target = (config.target as string) ?? ''
-  const args = ['validate']
-  if (config.category) args.push('--category', config.category as string)
-  if (config.file) args.push('--file', config.file as string)
+async function runValidate(cwd: string, _config: Record<string, unknown>): Promise<SystemResult> {
+  const args = ['project:check']
 
   const { stdout, exitCode } = await execa('sp-devcontrol', args, { cwd, timeout: 60_000, reject: false })
 

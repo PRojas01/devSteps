@@ -32,9 +32,7 @@ En una instalación completa, `devSteps` orquesta y `DevControl` vigila.
 Uso principal en terminal:
 
 ```bash
-npm install
-npm run build
-npm link
+npm install -g sp-devsteps
 devsteps --help
 ```
 
@@ -73,25 +71,32 @@ También hay configuraciones de integración en `opencode.json` y `.mcp.json`, a
 - Un editor o terminal
 - Opcional: Codex, Claude Code, OpenCode, Cursor o Windsurf
 
-### 2. Instala dependencias y verifica
+### 2. Instala el CLI
+
+```bash
+npm install -g sp-devsteps
+```
+
+Para probar desde este repositorio:
 
 ```bash
 npm install
 npm run build
-npm run typecheck
-npm test
+npm link
 ```
 
-### 3. Recorre la guía principal
+### 3. Crea tu primer proyecto
+
+```bash
+mkdir mi-primer-proyecto
+cd mi-primer-proyecto
+devsteps scaffold --name "Mi Primer Proyecto" --type web-app --stack typescript,node --force
+```
+
+### 4. Recorre la guía principal
 
 ```bash
 devsteps guide
-```
-
-### 4. Genera documentación base
-
-```bash
-devsteps docs --all
 ```
 
 ### 5. Inyecta instrucciones para agentes
@@ -104,12 +109,21 @@ devsteps inject
 
 ```bash
 sp-devcontrol inject
+sp-devcontrol project:check
 ```
 
 ### 7. Valida el estado del proyecto
 
 ```bash
-npm run validate
+devsteps validate
+```
+
+### 8. Verifica el proyecto generado
+
+```bash
+npm install
+npm run build
+npm test
 ```
 
 ## Comandos más útiles

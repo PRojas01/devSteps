@@ -100,7 +100,7 @@ function generateAll(root: string, config: DevStepsConfig, context: PipelineCont
 function generateReadme(root: string, config: DevStepsConfig, context: PipelineContext | null): void {
   const steps = config.pipeline as StepDefinition[]
   const completedSteps = context?.completedSteps ?? []
-  const installCommand = 'npm install && npm run build && npm link'
+  const installCommand = 'npm install -g sp-devsteps'
 
   const content = `# ${config.project.name}
 
@@ -119,17 +119,9 @@ ${config.project.description || 'Orquestador de proyectos por etapas, pensado pa
 
 Personas que están empezando a desarrollar proyectos y también a trabajar con editores agénticos. La prioridad es claridad operativa antes que automatización opaca.
 
-## Instalación rápida
+## Instalación rápida del CLI
 
-### Opción 1: uso local para contribuir al proyecto
-
-\`\`\`bash
-npm install
-npm run build
-npm test
-\`\`\`
-
-### Opción 2: instalar el CLI en tu máquina
+### Opción 1: usar la herramienta en cualquier proyecto
 
 \`\`\`bash
 ${installCommand}
@@ -141,13 +133,24 @@ Después podrás usar:
 devsteps --help
 \`\`\`
 
+### Opción 2: contribuir a devSteps desde este repositorio
+
+\`\`\`bash
+npm install
+npm run build
+npm test
+npm link
+\`\`\`
+
 ## Primer recorrido recomendado
 
-1. Inicializa o revisa el proyecto con \`devsteps status\`.
-2. Sigue la guía para principiantes con \`devsteps guide\`.
-3. Genera documentos base con \`devsteps docs --all\`.
+1. Crea una carpeta para tu proyecto.
+2. Genera la base con \`devsteps scaffold --name "Mi Primer Proyecto" --type web-app --stack typescript,node --force\`.
+3. Sigue la guía para principiantes con \`devsteps guide\`.
 4. Inyecta reglas para agentes con \`devsteps inject\`.
-5. Valida el estado del proyecto con \`devsteps validate\`.
+5. Si usas DevControl, ejecuta \`sp-devcontrol inject\` y \`sp-devcontrol project:check\`.
+6. Valida el estado del proyecto con \`devsteps validate\`.
+7. Instala dependencias del proyecto generado con \`npm install\`, luego ejecuta \`npm run build\` y \`npm test\`.
 
 ## Tres modos de trabajo
 
@@ -333,22 +336,32 @@ function generateGettingStartedDoc(root: string, config: DevStepsConfig): void {
 - Una terminal
 - Opcional: Codex, Claude Code, OpenCode, Cursor o Windsurf
 
-## 2. Clona o abre el proyecto
+## 2. Instala devSteps
 
 \`\`\`bash
-git clone <tu-repo>
-cd devSteps
+npm install -g sp-devsteps
 \`\`\`
 
-## 3. Instala dependencias y verifica el estado
+Si estás contribuyendo a este repositorio, usa instalación local:
 
 \`\`\`bash
 npm install
 npm run build
 npm test
+npm link
 \`\`\`
 
-## 4. Recorre la experiencia guiada
+## 3. Crea tu primer proyecto
+
+\`\`\`bash
+mkdir mi-primer-proyecto
+cd mi-primer-proyecto
+devsteps scaffold --name "Mi Primer Proyecto" --type web-app --stack typescript,node --force
+\`\`\`
+
+Este comando crea una base con \`package.json\`, \`tsconfig.json\`, \`src/\`, \`tests/\`, documentación inicial, licencia, changelog y \`devsteps.yaml\`.
+
+## 4. Recorre la experiencia guiada dentro del proyecto
 
 \`\`\`bash
 devsteps guide
@@ -356,7 +369,7 @@ devsteps guide
 
 Este modo explica cada paso del pipeline y es la entrada recomendada para principiantes.
 
-## 5. Activa el modo skill para agentes
+## 5. Activa el modo skill para agentes y editores
 
 \`\`\`bash
 devsteps inject
@@ -364,7 +377,16 @@ devsteps inject
 
 Esto genera archivos como \`AGENTS.md\` y \`CLAUDE.md\` para que el editor o agente tenga contexto estable.
 
-## 6. Configura tu editor
+## 6. Alinea con DevControl si está disponible
+
+\`\`\`bash
+sp-devcontrol inject
+sp-devcontrol project:check
+\`\`\`
+
+DevControl funciona como proyecto hermano: agrega gobernanza, comprobaciones y reportes complementarios al pipeline de devSteps.
+
+## 7. Configura tu editor
 
 ### VS Code
 
@@ -376,13 +398,16 @@ devsteps plugins --install vscode
 
 Revisa y adapta \`opencode.json\` para conectar servicios MCP del proyecto.
 
-## 7. Valida antes de continuar
+## 8. Valida antes de continuar
 
 \`\`\`bash
-npm run validate
+devsteps validate
+npm install
+npm run build
+npm test
 \`\`\`
 
-## 8. Flujo recomendado de trabajo
+## 9. Flujo recomendado de trabajo
 
 1. Define o revisa la idea.
 2. Completa requisitos y arquitectura.
@@ -447,6 +472,7 @@ devsteps plugins --install github-actions
 ### Prueba local
 
 \`\`\`bash
+npm run build
 npm link
 devsteps --help
 \`\`\`
@@ -454,6 +480,7 @@ devsteps --help
 ### Publicación en npm
 
 \`\`\`bash
+npm pack --dry-run
 npm publish
 \`\`\`
 

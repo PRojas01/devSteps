@@ -47,6 +47,7 @@ Si `SP-devSteps` y `SP-DevControl` se publican como familia:
 ### Prueba local
 
 ```bash
+npm run build
 npm link
 devsteps --help
 ```
@@ -54,6 +55,7 @@ devsteps --help
 ### Publicación en npm
 
 ```bash
+npm pack --dry-run
 npm publish
 ```
 

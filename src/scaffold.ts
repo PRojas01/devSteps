@@ -60,12 +60,17 @@ const ESLINT_CONFIG = {
   },
 }
 
-function scaffoldPackageJson(name: string, type: ProjectType, stack: string[]): Record<string, unknown> {
+function scaffoldPackageJson(name: string, type: ProjectType, description: string, stack: string[]): Record<string, unknown> {
   const deps: Record<string, string> = {}
   const devDeps: Record<string, string> = {
     typescript: '^5.7.0',
+    tsx: '^4.19.0',
     vitest: '^3.0.0',
     '@types/node': '^22.0.0',
+    eslint: '^8.57.0',
+    prettier: '^3.4.0',
+    '@typescript-eslint/parser': '^8.0.0',
+    '@typescript-eslint/eslint-plugin': '^8.0.0',
   }
 
   if (stack.includes('react') || type === 'web-app') {
@@ -83,27 +88,22 @@ function scaffoldPackageJson(name: string, type: ProjectType, stack: string[]): 
     deps.vue = '^3.5.0'
     devDeps['@vitejs/plugin-vue'] = '^5.0.0'
   }
-  if (stack.includes('eslint')) {
-    devDeps.eslint = '^9.0.0'
-    devDeps['@typescript-eslint/parser'] = '^8.0.0'
-    devDeps['@typescript-eslint/eslint-plugin'] = '^8.0.0'
-  }
-
   return {
     name: name.toLowerCase().replace(/\s+/g, '-'),
     version: '0.1.0',
-    description: '',
+    description,
     type: 'module',
     main: 'dist/index.js',
     types: 'dist/index.d.ts',
     scripts: {
       build: 'tsc',
       start: 'node dist/index.js',
-      dev: 'node --watch src/index.ts',
+      dev: 'tsx watch src/index.ts',
       test: 'vitest run',
       'test:watch': 'vitest',
       lint: 'eslint src/',
       typecheck: 'tsc --noEmit',
+      validate: 'devsteps validate',
       format: 'prettier --write src/',
     },
     keywords: [type, ...stack],
@@ -117,6 +117,7 @@ function scaffoldEntryFile(type: ProjectType, stack: string[]): string {
   const lines: string[] = []
 
   if (stack.includes('express') || type === 'api-service') {
+    lines.push(`/** Starts the HTTP API and exposes the service health endpoint. */`)
     lines.push(`import express from 'express'`)
     lines.push('')
     lines.push(`const app = express()`)
@@ -129,32 +130,38 @@ function scaffoldEntryFile(type: ProjectType, stack: string[]): string {
     lines.push(`})`)
     lines.push('')
     lines.push(`app.listen(PORT, () => {`)
-    lines.push(`  console.log(\`Server running on port \${PORT}\`)`)
+    lines.push(`  process.stdout.write(\`Server running on port \${PORT}\\n\`)`)
     lines.push(`})`)
   } else if (type === 'cli-tool') {
     lines.push(`#!/usr/bin/env node`)
+    lines.push(`/** Provides the command-line entry point for the generated project. */`)
     lines.push('')
     lines.push(`function main(): void {`)
     lines.push(`  const args = process.argv.slice(2)`)
-    lines.push(`  console.log('Hello from', args[0] ?? 'devSteps CLI')`)
+    lines.push(`  process.stdout.write(\`Hello from \${args[0] ?? 'devSteps CLI'}\\n\`)`)
     lines.push(`}`)
     lines.push('')
     lines.push(`main()`)
   } else if (type === 'data-pipeline') {
-    lines.push(`import { readFileSync, writeFileSync } from 'fs'`)
+    lines.push(`/** Runs the generated data processing pipeline and writes its output artifact. */`)
+    lines.push(`import { mkdirSync, writeFileSync } from 'fs'`)
     lines.push(`import { resolve } from 'path'`)
     lines.push('')
     lines.push(`async function runPipeline(): Promise<void> {`)
-    lines.push(`  console.log('Data pipeline starting...')`)
+    lines.push(`  process.stdout.write('Data pipeline starting...\\n')`)
     lines.push(`  const data = { message: 'Hello from devSteps data pipeline' }`)
     lines.push(`  const outputPath = resolve('output', 'result.json')`)
+    lines.push(`  mkdirSync(resolve('output'), { recursive: true })`)
     lines.push(`  writeFileSync(outputPath, JSON.stringify(data, null, 2))`)
-    lines.push(`  console.log(\`Output written to \${outputPath}\`)`)
+    lines.push(`  process.stdout.write(\`Output written to \${outputPath}\\n\`)`)
     lines.push(`}`)
     lines.push('')
     lines.push(`runPipeline().catch(console.error)`)
   } else {
-    lines.push(`console.log('Hello from devSteps!')`)
+    lines.push(`/** Exposes the generated application entry point. */`)
+    lines.push(`export function start(): string {`)
+    lines.push(`  return 'Hello from devSteps!'`)
+    lines.push(`}`)
   }
 
   return lines.join('\n') + '\n'
@@ -365,7 +372,7 @@ export async function runScaffold(root: string, options: ScaffoldOptions): Promi
   const dirs = ['src', 'tests', 'docs', 'templates', 'scripts']
   const structure: Record<string, string> = {}
 
-  structure['package.json'] = JSON.stringify(scaffoldPackageJson(projectName, projectType, stack), null, 2) + '\n'
+  structure['package.json'] = JSON.stringify(scaffoldPackageJson(projectName, projectType, description, stack), null, 2) + '\n'
   structure['tsconfig.json'] = JSON.stringify(TS_TSCONFIG, null, 2) + '\n'
   structure['.gitignore'] = GITIGNORE
   structure['README.md'] = scaffoldReadme(projectName, projectType, description, stack)

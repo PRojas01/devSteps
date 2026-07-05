@@ -11,32 +11,40 @@ Ayudarte a usar `devSteps` aunque estés empezando desde cero, tanto en desarrol
 - Una terminal
 - Opcional: Codex, Claude Code, OpenCode, Cursor o Windsurf
 
-## 2. Abre el proyecto
+## 2. Instala SP-devSteps
 
 ```bash
-git clone <tu-repo>
-cd devSteps
+npm install -g sp-devsteps
 ```
 
-## 3. Instala dependencias
+Para usar la copia local del repositorio:
 
 ```bash
 npm install
-```
-
-## 4. Verifica que todo funcione
-
-```bash
 npm run build
-npm run typecheck
-npm test
+npm link
 ```
 
-## 5. Instala el CLI localmente
+## 3. Crea tu primer proyecto
 
 ```bash
-npm link
-devsteps --help
+mkdir mi-primer-proyecto
+cd mi-primer-proyecto
+devsteps scaffold --name "Mi Primer Proyecto" --type web-app --stack typescript,node --force
+```
+
+## 4. Verifica que el proyecto generado cumple el estándar
+
+```bash
+devsteps validate
+```
+
+## 5. Instala dependencias del proyecto generado
+
+```bash
+npm install
+npm run build
+npm test
 ```
 
 ## 6. Recorre la experiencia guiada
@@ -47,13 +55,7 @@ devsteps guide
 
 Este es el punto de entrada recomendado si todavía no sabes bien en qué orden hacer las cosas.
 
-## 7. Genera documentación base
-
-```bash
-devsteps docs --all
-```
-
-## 8. Activa el modo skill para agentes
+## 7. Activa el modo skill para agentes
 
 ```bash
 devsteps inject
@@ -61,17 +63,18 @@ devsteps inject
 
 Esto genera archivos que explican a los agentes cómo deben trabajar dentro del proyecto.
 
-## 9. Activa la capa de gobernanza con DevControl
+## 8. Activa la capa de gobernanza con DevControl
 
 Si vas a trabajar con agentes reales, esta es la combinación recomendada:
 
 ```bash
 sp-devcontrol inject
+sp-devcontrol project:check
 ```
 
 Con esto el proyecto tendrá contexto de pipeline y también reglas/gates de gobernanza.
 
-## 10. Configura el editor
+## 9. Configura el editor
 
 ### VS Code
 
@@ -89,18 +92,19 @@ devsteps plugins --install github-actions
 
 Edita `opencode.json` según tu entorno para conectar servicios MCP.
 
-## 11. Valida antes de avanzar
+## 10. Valida antes de avanzar
 
 ```bash
-npm run validate
+devsteps validate
 ```
 
 ## Flujo de trabajo recomendado
 
-1. Usa `devsteps guide`.
-2. Inyecta `devsteps inject`.
-3. Si habrá agentes, activa `sp-devcontrol inject`.
-4. Documenta diseño y arquitectura.
-5. Ejecuta cambios.
-6. Corre tests y validación.
-7. Publica con commits convencionales.
+1. Crea el proyecto con `devsteps scaffold`.
+2. Usa `devsteps guide`.
+3. Inyecta `devsteps inject`.
+4. Si habrá agentes, activa `sp-devcontrol inject` y revisa `sp-devcontrol project:check`.
+5. Documenta diseño y arquitectura.
+6. Ejecuta cambios.
+7. Corre tests y validación.
+8. Publica con commits convencionales.

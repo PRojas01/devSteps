@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.0.0] - 2026-07-05
 
+### Fixed
+
+- Clean build output before compilation to prevent stale files from being packaged.
+- Align package metadata and repository URL with the published GitHub repository.
+- Add the missing `--force` option to `devsteps init`.
+- Generate beginner scaffolds that satisfy DS-v1 file checks and avoid broken default scripts.
+- Align DevControl launcher commands with the current DevControl CLI.
+- Update generated documentation templates so onboarding starts from install, scaffold, agent injection and validation.
+
 ### Added
 
 - Production-ready README with beginner onboarding and distribution modes.

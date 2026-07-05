@@ -44,6 +44,7 @@ program.command('init')
   .option('--type <type>', 'Project type (web-app, cli-tool, library, api-service, data-pipeline)')
   .option('--stack <items...>', 'Technology stack (e.g., typescript react node)')
   .option('--auto', 'Non-interactive mode with defaults')
+  .option('--force', 'Overwrite existing devsteps.yaml')
   .action(async (options) => {
     const root = process.cwd()
 
