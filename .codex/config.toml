@@ -1,0 +1,8 @@
+# devSteps orquesta el ciclo de vida del proyecto; la gobernanza (gates/aprobaciones)
+# la aplica DevControl vía su MCP. El CLI de devSteps (sp-devsteps) se usa directamente.
+[mcp_servers.devcontrol]
+command = "sp-devcontrol"
+args = ["mcp"]
+
+[mcp_servers.devcontrol.env]
+DEVCONTROL_PROJECT_ROOT = "${CLAUDE_PROJECT_DIR:-.}"
