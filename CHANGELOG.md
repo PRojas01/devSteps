@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Release workflow for tag `v*` that runs build, typecheck, tests, npm dry-run publication, package artifact generation, and GitHub Release dry-run reporting.
+- VS Code-compatible extension source under `extension/` with Activity Bar container, webview panel, CLI command buttons, MCP registration command, and VSIX packaging instructions for VS Code, Cursor, and Windsurf.
+- README entry point for multi-editor installation through `INSTALL_DEVSTEPS.md`.
+
 ## [1.0.0] - 2026-07-05
 
 ### Fixed

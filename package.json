@@ -9,8 +9,8 @@
     ".": "./dist/index.js"
   },
   "bin": {
-    "sp-devsteps": "./dist/cli.js",
-    "devsteps": "./dist/cli.js"
+    "sp-devsteps": "dist/cli.js",
+    "devsteps": "dist/cli.js"
   },
   "files": [
     "dist/",
@@ -27,7 +27,11 @@
     "CONTRIBUTING.md",
     "SECURITY.md",
     ".mcp.json",
-    "opencode.json"
+    "opencode.json",
+    ".claude/skills/",
+    ".claude-plugin/plugin.json",
+    "extension/",
+    "INSTALL_DEVSTEPS.md"
   ],
   "scripts": {
     "clean": "node -e \"import('node:fs').then(fs => fs.rmSync('dist', { recursive: true, force: true }))\"",
@@ -56,8 +60,6 @@
     "project-governance"
   ],
   "dependencies": {
-    "blessed": "^0.1.81",
-    "blessed-contrib": "^4.11.0",
     "chalk": "^5.4.1",
     "chokidar": "^4.0.3",
     "commander": "^13.1.0",
@@ -83,8 +85,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/PRojas01/devSteps.git"
+    "url": "git+https://github.com/PRojas01/devSteps.git"
   },
+  "bugs": {
+    "url": "https://github.com/PRojas01/devSteps/issues"
+  },
+  "homepage": "https://github.com/PRojas01/devSteps#readme",
   "publishConfig": {
     "access": "public"
   },
