@@ -6,12 +6,5 @@
       "url": "http://localhost:7893/mcp",
       "enabled": true
     }
-  },
-  "project": {
-    "family": "SolucionesPro Agentic Stack",
-    "siblingTools": [
-      "sp-devsteps",
-      "sp-devcontrol"
-    ]
   }
 }

@@ -1,0 +1,42 @@
+{
+  "name": "sp-devsteps",
+  "version": "1.0.0",
+  "description": "Orquesta proyectos con devSteps mediante CLI, skills de Claude Code y el MCP local de DevControl.",
+  "author": {
+    "name": "SolucionesPro"
+  },
+  "license": "MIT",
+  "keywords": [
+    "devsteps",
+    "lifecycle",
+    "pipeline",
+    "scaffolding",
+    "mcp",
+    "devcontrol"
+  ],
+  "skills": "./.claude/skills",
+  "mcpServers": {
+    "devcontrol": {
+      "type": "sse",
+      "url": "http://localhost:7893/mcp"
+    }
+  },
+  "interface": {
+    "displayName": "SP-devSteps",
+    "shortDescription": "Pipeline, scaffolding y validacion DS-v1 para proyectos asistidos por agentes.",
+    "longDescription": "Guia el ciclo de vida de un proyecto con devSteps, genera contexto para agentes y usa DevControl como MCP de gobernanza cuando esta disponible.",
+    "developerName": "SolucionesPro",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Analysis",
+      "Project Management"
+    ],
+    "defaultPrompt": [
+      "Revisa el estado del pipeline devSteps.",
+      "Guia el siguiente paso del proyecto.",
+      "Valida el proyecto con DS-v1."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
